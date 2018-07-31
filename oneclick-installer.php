@@ -92,8 +92,12 @@ $_POST['dbport']                        = isset($_POST['dbport']) ? trim($_POST[
 $_POST['dbuser']                        = isset($_POST['dbuser']) ? $GLOBALS['DBUSER_PREFIX_DEFAULT'] . trim($_POST['dbuser']) : $GLOBALS['DBUSER_PREFIX_DEFAULT'] . $GLOBALS['DBUSER_DEFAULT'];
 $_POST['dbpass']                        = isset($_POST['dbpass']) ? trim($_POST['dbpass']) : $GLOBALS['DBPASS_DEFAULT'];
 $_POST['dbname']                        = isset($_POST['dbname']) ? $GLOBALS['DBNAME_PREFIX_DEFAULT'] . trim($_POST['dbname']) : $GLOBALS['DBNAME_PREFIX_DEFAULT'] . $_POST['wp_user'];
-$_POST['dbcharset']                     = isset($_POST['dbcharset'])  ? trim($_POST['dbcharset']) : $GLOBALS['DBCHARSET_DEFAULT'];
-$_POST['dbcollatefb']                   = isset($_POST['dbcollatefb']) ? $_POST['dbcollatefb'] : $GLOBALS['DBCOLLATEFB_DEFAULT'];
+
+$_POST['dbcharset'] = isset($_POST['dbcharset'])  ? trim($_POST['dbcharset']) : $GLOBALS['DBCHARSET_DEFAULT'];
+$_POST['dbcollate'] = isset($_POST['dbcollate'])  ? trim($_POST['dbcollate']) : $GLOBALS['DBCOLLATE_DEFAULT'];
+$_POST['dbcollatefb']                   = isset($_POST['dbcollatefb']) ? $_POST['dbcollatefb'] : false;//$GLOBALS['DBCOLLATEFB_DEFAULT'];
+
+
 $_POST['dbprefix']                      = isset($_POST['dbprefix']) ? $_POST['dbprefix'] : $GLOBALS['FW_TABLEPREFIX'];
 
 $_POST['archive_engine']                = isset($_POST['archive_engine']) ? $_POST['archive_engine']  : 'auto';
@@ -105,12 +109,14 @@ $_POST['cache_wp']                      = (isset($_POST['cache_wp']))   ? true :
 $_POST['cache_path']                    = (isset($_POST['cache_path'])) ? true : false;
 $_POST['tables']                        = array();
 
-$_POST['postguid']		                = isset($_POST['postguid']) && $_POST['postguid'] == 1 ? 1 : 0;
+$_POST['postguid']		                = 1;//isset($_POST['postguid']) && $_POST['postguid'] == 1 ? 1 : 0;
 $_POST['path_old']		                = isset($_POST['path_old']) ? trim($_POST['path_old']) : $GLOBALS['PATH_OLD_DEFAULT'];
 
 /** important new path in order to update in the database e.g. image path **/
 
-$_POST['path_new']		                = isset($_POST['path_new']) ? trim($_POST['path_new']) : $GLOBALS['PATH_NEW_DEFAULT'] . '/' . $GLOBALS['INSTALL_DIR_PREFIX']. '/' . $_POST['wp_user'].'/';
+$_POST['path_new']		                = isset($_POST['path_new']) ? trim($_POST['path_new']) : $GLOBALS['PATH_NEW_DEFAULT'] . '/' . $GLOBALS['INSTALL_DIR_PREFIX_DEFAULT']. '/' . $_POST['wp_user'].'/';
+//$new_path = DUPX_U::setSafePath($GLOBALS['CURRENT_ROOT_PATH']);
+//$new_path = ((strrpos($old_path, '/') + 1) == strlen($old_path)) ? DUPX_U::addSlash($new_path) : $new_path;
 
 /**
 Changing the Site URL
@@ -162,9 +168,13 @@ require_once('init/log1.file.php');
 
 /*** Include - Database Migration ***/
 require_once('migration/DatabaseMigration.php');
+/** Add setting input fields class **/
+require_once('migration/Configuration.php');
 
 /* Database Processing */
 $db_mgr = new DatabaseMigration();
+$web_config = new Configuration($_POST['dbprefix'], $_POST['blog_name'], $_POST['url_new'], $_POST['url_old'], $_POST['path_new'], $_POST['path_old'], $_POST['siteurl'], $_POST['tables'], $_POST['fullsearch'], $_POST['exe_safe_mode']);
+
 
 try {
     $token = $db_mgr->connectHost($_POST['cpanel_host'], $_POST['cpanel_user'], $_POST['cpanel_pass'], $_POST['dbname']);
@@ -183,9 +193,9 @@ if(is_resource($dbh) && get_resource_type($dbh)==='mysql link'){
     require_once('init/log2.file.php');
     
     
-    $db_mgr->testRunDatabase($dbh, $_POST['dbcharset'], $_POST['dbcollatefb']);
+    $db_mgr->testRunDatabase($dbh, $_POST['dbcharset'], $_POST['dbcollate'] );
     
-    $scan_result = $db_mgr->scanSQLFile($dbh, $_POST['dbcharset'], $_POST['dbcollatefb'], $GLOBALS['CURRENT_ROOT_PATH'], $_POST['dbnbsp']);
+    $scan_result = $db_mgr->scanSQLFile($dbh, $_POST['dbcharset'], $_POST['dbcollate'] , $_POST['dbcollatefb'], $GLOBALS['CURRENT_ROOT_PATH'], $_POST['dbnbsp']);
     
     $profile_start = DUPX_U::getMicrotime();
     
@@ -219,6 +229,9 @@ if(is_resource($dbh) && get_resource_type($dbh)==='mysql link'){
     $db_mgr->updateMU($dbh, $_POST['dbprefix'], $_POST['url_new'], $_POST['url_old']);
     
     $db_mgr->finalTest($dbh, $_POST['dbprefix'], $config_file);
+    
+    $web_config = new Configuration($_POST['dbprefix'], $_POST['blog_name'], $_POST['url_new'], $_POST['url_old'], $_POST['path_new'], $_POST['path_old'], $_POST['siteurl'], $_POST['tables'], $_POST['fullsearch'], $_POST['exe_safe_mode']);
+    
  
 } catch (Exception $exception) { 
     DUPX_Log::error("Exception on migration project:".$exception."\n");

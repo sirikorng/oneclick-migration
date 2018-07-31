@@ -145,11 +145,12 @@ class DatabaseMigration
 	 *
 	 * @return
 	 */
-	public function testRunDatabase($dbh, $dbcharset, $dbcollatefb)
+    public function testRunDatabase($dbh, $dbcharset, $dbcollate)
 	{
         @mysqli_query($dbh, "SET wait_timeout = {$GLOBALS['DB_MAX_TIME']}");
         @mysqli_query($dbh, "SET max_allowed_packet = {$GLOBALS['DB_MAX_PACKETS']}");
-        DUPX_DB::setCharset($dbh, $dbcharset, $dbcollatefb);
+        DUPX_Log::info('### server charset :::'.@mysqli_character_set_name($dbh)); 
+        DUPX_DB::setCharset($dbh, $dbcharset, $dbcollate);
     }
 
 	/**
@@ -167,7 +168,7 @@ class DatabaseMigration
 	 *
 	 * @return
 	 */
-	public function scanSQLFile($dbh, $dbcharset, $dbcollatefb, $cur_root_path, $nbsp)
+    public function scanSQLFile($dbh, $dbcharset, $dbcollate , $dbcollatefb, $cur_root_path, $nbsp)
 	{
         $root_path = DUPX_U::setSafePath($cur_root_path);
         @chmod($root_path, 0777);
@@ -252,7 +253,7 @@ class DatabaseMigration
         /* WARNING: Create installer-data.sql failed */
         @mysqli_query($dbh, "SET wait_timeout = {$GLOBALS['DB_MAX_TIME']}");
         @mysqli_query($dbh, "SET max_allowed_packet = {$GLOBALS['DB_MAX_PACKETS']}");
-        DUPX_DB::setCharset($dbh, $dbcharset, $dbcollatefb);
+        DUPX_DB::setCharset($dbh, $dbcharset, $dbcollate);
     
         /*  Set defaults in-case the variable could not be read */
         $dbvar_maxtime		        = DUPX_DB::getVariable($dbh, 'wait_timeout');
@@ -594,7 +595,9 @@ LOG;
 
         /* Reset the postguid data */
         if ($_POST['postguid']) {
-            mysqli_query($dbh, "UPDATE `{$dbprefix}posts` SET guid = REPLACE(guid, '{$url_new}', '{$url_old})");
+            $replace_post_update_sql = "UPDATE ".$dbprefix."posts SET guid = REPLACE(guid, ".$url_new.", ".$url_old;
+            DUPX_Log::info("replace_post_update_sql:".$replace_post_update_sql);
+            mysqli_query($dbh, $replace_post_update_sql);
             $update_guid = @mysqli_affected_rows($dbh) or 0;
             DUPX_Log::info("Reverted '{$update_guid}' post guid columns back to '{$url_old}'");
         }
