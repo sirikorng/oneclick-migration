@@ -168,12 +168,16 @@ require_once('init/log1.file.php');
 
 /*** Include - Database Migration ***/
 require_once('migration/DatabaseMigration.php');
-/** Add setting input fields class **/
-require_once('migration/Configuration.php');
+/** Add setting/getting input fields class **/
+require_once('migration/model/Configuration.php');
+require_once('migration/model/DatabaseConfiguration.php');
+require_once('migration/model/DatabaseConnectionConfiguration.php');
 
 /* Database Processing */
 $db_mgr = new DatabaseMigration();
 $web_config = new Configuration($_POST['dbprefix'], $_POST['blog_name'], $_POST['url_new'], $_POST['url_old'], $_POST['path_new'], $_POST['path_old'], $_POST['siteurl'], $_POST['tables'], $_POST['fullsearch'], $_POST['exe_safe_mode']);
+$database_config = new DatabaseConfiguration($_POST['dbcharset'], $_POST['dbcollate'] , $_POST['dbcollatefb'], $GLOBALS['CURRENT_ROOT_PATH'], $_POST['dbnbsp']);
+$database_connection_config = new DatabaseConnectionConfiguration($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpass'], $_POST['dbport'],$_POST['dbname']);
 
 
 try {
@@ -230,7 +234,6 @@ if(is_resource($dbh) && get_resource_type($dbh)==='mysql link'){
     
     $db_mgr->finalTest($dbh, $_POST['dbprefix'], $config_file);
     
-    $web_config = new Configuration($_POST['dbprefix'], $_POST['blog_name'], $_POST['url_new'], $_POST['url_old'], $_POST['path_new'], $_POST['path_old'], $_POST['siteurl'], $_POST['tables'], $_POST['fullsearch'], $_POST['exe_safe_mode']);
     
  
 } catch (Exception $exception) { 
