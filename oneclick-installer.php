@@ -16,6 +16,7 @@ date_default_timezone_set('UTC');
   * This data is necessary to call the function without the parameters.
   */
 
+
 /* These data are default data when the input data is none. */
 $GLOBALS['DBHOST_DEFAULT']              = 'localhost';
 $GLOBALS['DBPORT_DEFAULT']              = 3306;
@@ -25,14 +26,14 @@ $GLOBALS['DBPASS_DEFAULT']              = '!jpassword';
 $GLOBALS['DBNAME_PREFIX_DEFAULT']       = 'thailay0_';
 $GLOBALS['SITE_DIR_DEFAULT']            = '/home1/thailay0/public_html/yourlogo';
 $GLOBALS['INSTALL_DIR_PREFIX_DEFAULT']  = 'shop';
-$GLOBALS['PACKAGE_NAME_DEFAULT']        = '/home1/thailay0/public_html/yourlogo/installer/demo_archive.zip';
+$GLOBALS['PACKAGE_NAME_DEFAULT']        = '/home1/thailay0/public_html/yourlogo/installer/20180720_parrystore_45ad741364c1f1d66530180720164931_archive.zip';
 $GLOBALS['CPANEL_HOST_DEFAULT']         = 'https://yourlogo.online:2083';
 $GLOBALS['CPANEL_USER_DEFAULT']         = 'thailay0';
 $GLOBALS['CPANEL_PASS_DEFAULT']         = 'Pare4322@7';
 $GLOBALS['URL_NEW_DEFAULT']             = 'http://yourlogo.online';
-$GLOBALS['URL_OLD_DEFAULT']             = 'http://yourlogo.site';
+$GLOBALS['URL_OLD_DEFAULT']             = 'https://www.parrystore.com';
 $GLOBALS['PATH_NEW_DEFAULT']            = 'http://yourlogo.online';
-$GLOBALS['PATH_OLD_DEFAULT']            = 'http://yourlogo.site';
+$GLOBALS['PATH_OLD_DEFAULT']            = 'https://www.parrystore.com';
 $GLOBALS['SITEURL_DEFAULT']             = 'http://yourlogo.online';
 
 /* Log file and SQL file path */
@@ -42,9 +43,9 @@ $GLOBALS['LOGGING']                     = 1;
 
 /* The property information of the defult site . */
 $GLOBALS['FW_TABLEPREFIX']              = '44e_';
-$GLOBALS['FW_URL_OLD']                  = 'http://yourlogo.site';
-$GLOBALS['FW_WPROOT']                   = '/home1/thailay0/public_html/yourlogo_site/';
-$GLOBALS['FW_WPLOGIN_URL']              = 'http://yourlogo.site/wp-login.php';
+$GLOBALS['FW_URL_OLD']                  = 'https://www.parrystore.com';
+$GLOBALS['FW_WPROOT']                   = '/home1/thailay0/public_html/parrystore/';
+$GLOBALS['FW_WPLOGIN_URL']              = 'https://www.parrystore.com/wp-login.php';
 $GLOBALS['FW_OPTS_DELETE']              = json_decode('["duplicator_ui_view_state","duplicator_package_active","duplicator_settings"]', true);
 $GLOBALS['REPLACE_LIST'] = array();
 
