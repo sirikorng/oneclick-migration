@@ -196,7 +196,8 @@ Class Configuration{
     }
 
     public function log(){
-        DUPX_Log::info("##### Configuration :::::: dbprefix=".$this->dbprefix.",".
+        DUPX_Log::info("##### ".get_class($this) ." :::::: ".
+            "dbprefix = ".$this->dbprefix.",".
             "blog_name=".$this->blog_name.",".
             "url_new=".$this->url_new.",".
             "url_old=".$this->url_old.",".

@@ -6,7 +6,7 @@
 
 require_once('dupx/class.dupx.log.php');
 
-Class Configuration{
+Class DatabaseConnectionConfiguration{
     private $dbhost, $dbuser, $dbpass, $dbport, $dbname;
   
    
@@ -102,12 +102,12 @@ Class Configuration{
     }
 
     public function log(){
-        DUPX_Log::info("##### Database Connection Configuration :::::: ".
-            " dbhost = ".$this->dbhost.
-            " dbuser = ".$this->dbuser.
-            " dbpass = ".$this->dbpass.
-            " dbport = ".$this->dbport.
-            " dbname =". $this->dbname. 
+        DUPX_Log::info("##### ".get_class($this) ." :::::: ".
+            "  dbhost = ".$this->dbhost.
+            ", dbuser = ".$this->dbuser.
+            ", dbpass = ".$this->dbpass.
+            ", dbport = ".$this->dbport.
+            ", dbname =". $this->dbname. 
             "\n ::::");       
         
     }

@@ -100,12 +100,13 @@ Class DatabaseConfiguration{
     }
 
     public function log(){
-        DUPX_Log::info("##### Database Configuration :::::: 
-            dbcharset = ". $this->dbcharset.", dbcollate = ".
-            $this->dbcollate." , dbcollatefb = ".
-            $this->dbcollatefb. " , root_path = ".
-            $this->root_path ." , dbnbsp = ".
-            $this->dbnbsp ."\n ::::");       
+        DUPX_Log::info("##### ".get_class($this) ." :::::: ".
+            "  dbcharset = ". $this->dbcharset.
+            ", dbcollate = ".$this->dbcollate.
+            " , dbcollatefb = ".$this->dbcollatefb.
+            " , root_path = ".$this->root_path .
+            " , dbnbsp = ".$this->dbnbsp 
+            ."\n ::::");       
         
     }
    

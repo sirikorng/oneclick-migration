@@ -168,17 +168,21 @@ require_once('init/log1.file.php');
 
 /*** Include - Database Migration ***/
 require_once('migration/DatabaseMigration.php');
+
 /** Add setting/getting input fields class **/
 require_once('migration/model/Configuration.php');
 require_once('migration/model/DatabaseConfiguration.php');
 require_once('migration/model/DatabaseConnectionConfiguration.php');
+require_once('migration/model/WordpressUserData.php');
 
 /* Database Processing */
 $db_mgr = new DatabaseMigration();
+
+/* $POST Parameters passing into models */
 $web_config = new Configuration($_POST['dbprefix'], $_POST['blog_name'], $_POST['url_new'], $_POST['url_old'], $_POST['path_new'], $_POST['path_old'], $_POST['siteurl'], $_POST['tables'], $_POST['fullsearch'], $_POST['exe_safe_mode']);
 $database_config = new DatabaseConfiguration($_POST['dbcharset'], $_POST['dbcollate'] , $_POST['dbcollatefb'], $GLOBALS['CURRENT_ROOT_PATH'], $_POST['dbnbsp']);
 $database_connection_config = new DatabaseConnectionConfiguration($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpass'], $_POST['dbport'],$_POST['dbname']);
-
+$wp_user_model = new WordpressUserData( $_POST['wp_user'], $_POST['wp_pass']);
 
 try {
     $token = $db_mgr->connectHost($_POST['cpanel_host'], $_POST['cpanel_user'], $_POST['cpanel_pass'], $_POST['dbname']);
@@ -196,13 +200,15 @@ if(is_resource($dbh) && get_resource_type($dbh)==='mysql link'){
     /* Log File 2 */
     require_once('init/log2.file.php');
     
-    
+    //$db_mgr->testRunDatabase($dbh, $database_config);
     $db_mgr->testRunDatabase($dbh, $_POST['dbcharset'], $_POST['dbcollate'] );
     
+    //$dbh = $db_mgr->scanSQLFile($dbh, $database_config);
     $scan_result = $db_mgr->scanSQLFile($dbh, $_POST['dbcharset'], $_POST['dbcollate'] , $_POST['dbcollatefb'], $GLOBALS['CURRENT_ROOT_PATH'], $_POST['dbnbsp']);
     
     $profile_start = DUPX_U::getMicrotime();
     
+    //$dbh = $db_mgr->writeSQLData($dbh, $database_connection_config, $database_config);    
     $dbh = $db_mgr->writeSQLData($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpass'], $_POST['dbname'], $_POST['dbport'], $dbh, $scan_result, $_POST['dbcharset'], $_POST['dbcollatefb']);
     
     $_POST['tables'] = $db_mgr->findRowsAndTablesToReplace($dbh, $_POST['fullsearch']);
@@ -214,6 +220,7 @@ if(is_resource($dbh) && get_resource_type($dbh)==='mysql link'){
     /* Log File 3 */
     require_once('init/log3.file.php');
   
+   // $db_mgr->connectDatabase($dbh, $database_connection_config, $database_config);   
     $dbh = $db_mgr->connectDatabase($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpass'], $_POST['dbname'], $_POST['dbport'], $_POST['dbcharset'], $_POST['dbcollatefb']);
 
     $_POST['blogname'] = $db_mgr->getBlogName($dbh, $_POST['blogname']);
@@ -223,13 +230,15 @@ if(is_resource($dbh) && get_resource_type($dbh)==='mysql link'){
 
     $db_mgr->updateSettings($dbh, $_POST['dbprefix'], $_POST['blogname'], $_POST['plugins']);
 
-    
+   // $db_mgr->replaceDBField($dbh, $web_config);
     $db_mgr->replaceDBField($dbh, $_POST['dbprefix'], $_POST['blog_name'], $_POST['url_new'], $_POST['url_old'], $_POST['path_new'], $_POST['path_old'], $_POST['siteurl'], $_POST['tables'], $_POST['fullsearch'], $_POST['exe_safe_mode']);
     
     $config_file = $db_mgr->updateWPConfig($GLOBALS['CURRENT_ROOT_PATH'], $_POST['url_new'], $_POST['retain_config'], $dbh);
     
+    //$db_mgr->createNewWordpressAdminUser($dbh, $web_config, $wp_user_model);
     $db_mgr->createNewWordpressAdminUser($dbh, $_POST['dbprefix'], $_POST['wp_user'], $_POST['wp_pass']);
-    
+   
+   // $db_mgr->updateMU($dbh, $web_config);
     $db_mgr->updateMU($dbh, $_POST['dbprefix'], $_POST['url_new'], $_POST['url_old']);
     
     $db_mgr->finalTest($dbh, $_POST['dbprefix'], $config_file);
