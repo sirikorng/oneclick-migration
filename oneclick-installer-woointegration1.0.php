@@ -809,7 +809,7 @@ if (strlen($_POST['wp_user']) >= 1 && strlen($_POST['wp_pass']) >= 1) {
 
 		$newuser_test1 = @mysqli_query($dbh, "INSERT INTO `{$GLOBALS['FW_TABLEPREFIX']}users` 
 			(`user_login`, `user_pass`, `user_nicename`, `user_email`, `user_registered`, `user_activation_key`, `user_status`, `display_name`) 
-			VALUES ('{$_POST['wp_user']}', MD5('{$_POST['wp_pass']}'), '{$_POST['wp_user']}', '', '{$newuser_datetime}', '', '0', '{$_POST['wp_user']}')");
+			VALUES ('{$_POST['wp_user']}', '{$_POST['wp_pass']}', '{$_POST['wp_user']}', '', '{$newuser_datetime}', '', '0', '{$_POST['wp_user']}')");
 
 		$newuser_insert_id = mysqli_insert_id($dbh);
 
