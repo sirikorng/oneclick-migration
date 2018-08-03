@@ -292,7 +292,7 @@ class DatabaseMigration
 	 *
 	 * @return 
 	 */
-	public function writeSQLData($dbhost, $user, $pass, $dbname, $port, $dbh, $scan_result, $charset, $dbcollatefb)
+	public function writeSQLData($dbhost, $user, $pass, $dbname, $port, $dbh, $scan_result, $charset, $dbcollate)
 	{
         /* WRITE DATA */
         DUPX_Log::info("--------------------------------------");
@@ -324,7 +324,7 @@ class DatabaseMigration
                                 $dbh = $this->simpleConnectDatabase($dbhost, $user, $pass, $dbname, $port);
                                 // Reset session setup
                                 @mysqli_query($dbh, "SET wait_timeout = {$GLOBALS['DB_MAX_TIME']}");
-                                DUPX_DB::setCharset($dbh, $dbcharset, $dbcollatefb);
+                                DUPX_DB::setCharset($dbh, $dbcharset, $dbcollate);
                             }
                             DUPX_Log::info("**ERROR** database error write '{$err}' - [sql=" . substr($scan_result['data'][$counter], 0, 75) . "...]");
                             $dbquery_errs++;

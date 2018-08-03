@@ -1,10 +1,10 @@
-﻿<?php
+<?php
 
 /** Absolute path to the Installer directory. - necessary for php protection */
 if ( !defined('ABSPATH') )
     define('ABSPATH', dirname(__FILE__) . '/');
 
-/* Some machines don’t have this set so just do it here. */
+/* Some machines don�t have this set so just do it here. */
 date_default_timezone_set('UTC');
 
 ////
@@ -24,17 +24,17 @@ $GLOBALS['DBUSER_PREFIX_DEFAULT']       = 'thailay0_';
 $GLOBALS['DBUSER_DEFAULT']              = 'shop';
 $GLOBALS['DBPASS_DEFAULT']              = '!jpassword';
 $GLOBALS['DBNAME_PREFIX_DEFAULT']       = 'thailay0_';
-$GLOBALS['SITE_DIR_DEFAULT']            = '/home1/thailay0/public_html/yourlogo';
+$GLOBALS['SITE_DIR_DEFAULT']            = '/home1/thailay0/public_html/woointegration';
 $GLOBALS['INSTALL_DIR_PREFIX_DEFAULT']  = 'shop';
-$GLOBALS['PACKAGE_NAME_DEFAULT']        = '/home1/thailay0/public_html/yourlogo/installer/20180720_parrystore_45ad741364c1f1d66530180720164931_archive.zip';
-$GLOBALS['CPANEL_HOST_DEFAULT']         = 'https://yourlogo.online:2083';
+$GLOBALS['PACKAGE_NAME_DEFAULT']        = '/home1/thailay0/public_html/woointegration/installer/20180720_parrystore_45ad741364c1f1d66530180720164931_archive.zip';
+$GLOBALS['CPANEL_HOST_DEFAULT']         = 'https://woointegration.com:2083';
 $GLOBALS['CPANEL_USER_DEFAULT']         = 'thailay0';
 $GLOBALS['CPANEL_PASS_DEFAULT']         = 'Pare4322@7';
-$GLOBALS['URL_NEW_DEFAULT']             = 'http://yourlogo.online';
+$GLOBALS['URL_NEW_DEFAULT']             = 'http://woointegration.com';
 $GLOBALS['URL_OLD_DEFAULT']             = 'https://www.parrystore.com';
-$GLOBALS['PATH_NEW_DEFAULT']            = 'http://yourlogo.online';
+$GLOBALS['PATH_NEW_DEFAULT']            = 'http://woointegration.com';
 $GLOBALS['PATH_OLD_DEFAULT']            = 'https://www.parrystore.com';
-$GLOBALS['SITEURL_DEFAULT']             = 'http://yourlogo.online';
+$GLOBALS['SITEURL_DEFAULT']             = 'http://woointegration.com';
 
 /* Log file and SQL file path */
 $GLOBALS['SQL_FILE_NAME']               = "installer-data.sql";
@@ -79,7 +79,7 @@ if (!isset($_POST['wp_user'])) {
  *****  The posted Data.
   ***  This data is posted the caller is submited in form.
   */
-$_POST['sitedir']                       = '/home1/thailay0/public_html/yourlogo/';
+$_POST['sitedir']                       = '/home1/thailay0/public_html/woointegration/';
 $_POST['fullsearch']                    = 1;
 
 $_POST['cpanel_host']                   = isset($_POST['cpanel_host']) ? trim($_POST['cpanel_host']) : $GLOBALS['CPANEL_HOST_DEFAULT'];
