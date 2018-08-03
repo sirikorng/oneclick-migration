@@ -291,7 +291,7 @@ $database_config = new DatabaseConfiguration($_POST['dbcharset'], $_POST['dbcoll
 $database_connection_config = new DatabaseConnectionConfiguration($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpass'], $_POST['dbport'],$_POST['dbname']);
 $wp_user_model = new WordpressUserData( $_POST['wp_user'], $_POST['wp_pass']);
 
-/*
+
 //PAGE VARS
 $date_time      = @date('h:i:s');
 $ajax2_start	= DUPX_U::getMicrotime();
@@ -889,7 +889,7 @@ if ($result) {
 	DUPX_Log::error('Migration Exception ::'.$ex->getMessage(););
 }finally{	
 mysqli_close($dbh);
-}*/
+} //*/
 $ajax2_end = DUPX_U::getMicrotime();
 $ajax2_sum = DUPX_U::elapsedTime($ajax2_end, $ajax2_start);
 DUPX_Log::info("\nSTEP 3 COMPLETE @ " . @date('h:i:s') . " - RUNTIME: {$ajax2_sum}\n\n");

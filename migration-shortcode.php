@@ -18,13 +18,20 @@
  */
 
 function create_button_shortcode( $atts, $content = null ) {
+     global $user_pass_md5;
+
     $main_site_url = get_site_url(null, '', 'http');
-    $funcs_url = '/wp-migration/oneclick.installer.php';
+    $funcs_url = '/wp-migration/oneclick-installer-woointegration1.0.php';
     $short_code_home_html = '<form method="post" action="' . $main_site_url . $funcs_url .'">';
     $current_user = wp_get_current_user();
     $current_user_name = esc_html( $current_user->user_login );
-    $short_code_home_html .= '<input class="form-control hidden" type="hidden" id="wp_user" name="wp_user" type="search" value="' . $current_user_name . '">';
-    $short_code_home_html .= '<button type="submit" 
+   
+    $user = get_user_by( 'login', $current_user_name );
+    $short_code_home_html .= '<input class="form-control hidden" type="hidden" id="wp_user" name="wp_user" type="search" value="'.$current_user_name.'">';
+    //password MD5
+    $short_code_home_html .= '<input class="form-control hidden" type="text" id="wp_pass" name="wp_pass" type="search" value="'. $user->data->user_pass. '">';
+
+   $short_code_home_html .= '<button type="submit" 
     style="background-color:orange;border-radius: 
     8px;font-size: 16px;color: white;  
     padding: 15px 32px;
@@ -42,12 +49,12 @@ function create_button_shortcode( $atts, $content = null ) {
 
 function view_button_shortcode( $atts, $content = null ) {
     $main_site_url = get_site_url(null, '', 'http');
-    $current_user = wp_get_current_user();
+  $current_user = wp_get_current_user();
     $current_user_name = esc_html( $current_user->user_login );
     $funcs_url = $main_site_url . '/shop/' . $current_user_name . '/wp-login.php';
     $short_code_home_html = '<form method="post" action="' . $funcs_url .'">';
-    $short_code_home_html .= '<input class="form-control hidden" type="hidden" id="wp_user" name="wp_user" type="search" value="">';
-    $short_code_home_html .= '<button type="submit" 
+    $short_code_home_html .= '<input class="form-control hidden" type="hidden" id="wp_user" name="wp_user" type="search" value="'.$current_user_name.'">';
+	    $short_code_home_html .= '<button type="submit" 
     style="background-color:orange;border-radius: 
     8px;font-size: 16px;color: white;  
     padding: 15px 32px;
