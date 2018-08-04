@@ -889,7 +889,7 @@ if ($result) {
 	}
 }
 }catch(Exception $ex){
-	DUPX_Log::error('Migration Exception ::'.$ex->getMessage(););
+	DUPX_Log::error('Migration Exception ::'.$ex->getMessage());
 }finally{	
 mysqli_close($dbh);
 } //*/
