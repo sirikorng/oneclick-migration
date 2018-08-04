@@ -8,21 +8,22 @@ require_once('dupx/class.dupx.log.php');
 
 Class Configuration{
    private $dbprefix;
-   private $blog_name;
+   private $blogname;
    private $url_new;
    private $url_old;
    private $path_new;
    private $path_old;
    private $siteurl;
    private $tables;
+   private $plugins;
    private $fullsearch;
    private $exe_safe_mode;
    
-   public  function __construct($dbprefix, $blog_name, $url_new,   $url_old,
-    $path_new, $path_old, $siteurl, $tables, $fullsearch, $exe_safe_mode) {
+   public  function __construct($dbprefix, $blogname, $url_new,   $url_old,
+    $path_new, $path_old, $siteurl, $tables, $plugins, $fullsearch, $exe_safe_mode) {
        
         $this->dbprefix = $dbprefix;
-        $this->blog_name = $blog_name;
+        $this->blogname = $blogname;
         $this->url_new = $url_new;
         $this->url_old = $url_old;
         $this->path_new = $path_new;
@@ -31,6 +32,7 @@ Class Configuration{
         $this->path_old = $path_old;
         $this->siteurl = $siteurl;
         $this->tables = $tables;
+        $this->plugins = $plugins;
         $this->fullsearch = $fullsearch;
         $this->exe_safe_mode = $exe_safe_mode;
         $this->log();
@@ -43,13 +45,7 @@ Class Configuration{
         return $this->dbprefix;
     }
 
-/**
-     * @return mixed
-     */
-    public function getBlog_name()
-    {
-        return $this->blog_name;
-    }
+
 
 /**
      * @return mixed
@@ -123,13 +119,7 @@ Class Configuration{
         $this->dbprefix = $dbprefix;
     }
 
-/**
-     * @param mixed $blog_name
-     */
-    public function setBlog_name($blog_name)
-    {
-        $this->blog_name = $blog_name;
-    }
+
 
 /**
      * @param mixed $url_new
@@ -195,16 +185,52 @@ Class Configuration{
         $this->exe_safe_mode = $exe_safe_mode;
     }
 
+    
+    /**
+     * @return mixed
+     */
+    public function getPlugins()
+    {
+        return $this->plugins;
+    }
+
+    /**
+     * @param mixed $plugins
+     */
+    public function setPlugins($plugins)
+    {
+        $this->plugins = $plugins;
+    }
+    
+    
+
+    /**
+     * @return mixed
+     */
+    public function getBlogname()
+    {
+        return $this->blogname;
+    }
+
+    /**
+     * @param mixed $blogname
+     */
+    public function setBlogname($blogname)
+    {
+        $this->blogname = $blogname;
+    }
+
     public function log(){
         DUPX_Log::info("##### ".get_class($this) ." :::::: ".
             "dbprefix = ".$this->dbprefix.",".
-            "blog_name=".$this->blog_name.",".
+            "blogname=".$this->blogname.",".
             "url_new=".$this->url_new.",".
             "url_old=".$this->url_old.",".
             "path_new=".$this->path_new.",".
             "path_old=".$this->path_old.",".
             "siteurl=".$this->siteurl.",".
             "tables=".$this->tables.",".
+            "plugins=".$this->plugins.",".
             "fullsearch=".$this->fullsearch.",".
             "exe_safe_mode=".$this->exe_safe_mode."\n ::::");
             

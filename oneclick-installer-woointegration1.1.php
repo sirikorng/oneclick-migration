@@ -21,24 +21,22 @@ date_default_timezone_set('UTC');
 //For Test
 //$_POST['wp_user'] = 'test001';
 //$_POST['wp_pass'] = 'test001';
-$_POST['sitedir'] = '/home1/thailay0/public_html/woointegration/';
+//$_POST['sitedir'] = '/home1/thailay0/public_html/woointegration/';
 $_POST['postguid'] = 1;
-$_POST['path_old'] = 'https://www.parrystore.com';
-$_POST['path_new'] = 'https://woointegration.com/shop/'. $_POST['wp_user'];
-$_POST['url_old'] = 'https://www.parrystore.com';
-$_POST['url_new'] = 'https://woointegration.com/shop/' . $_POST['wp_user'];
-$_POST['siteurl'] = 'https://woointegration.com/shop/' . $_POST['wp_user'];
+//$_POST['path_old'] = 'https://www.parrystore.com';
+// $_POST['path_new'] = 'https://woointegration.com/shop/'. $_POST['wp_user'];
+// $_POST['url_old'] = 'https://www.parrystore.com';
+// $_POST['url_new'] = 'https://woointegration.com/shop/' . $_POST['wp_user'];
+// $_POST['siteurl'] = 'https://woointegration.com/shop/' . $_POST['wp_user'];
 $_POST['fullsearch'] = 1;
 
 // GET, POST
 // dbhost
 $GLOBALS['DBHOST_DEFAULT']              = 'localhost';
 // dbport
-$GLOBALS['DBPORT_DEFAULT']              = 3306;
+$GLOBALS['DBPORT_DEFAULT']              = '3306';
 // dbuser
-$GLOBALS['DBUSER_PREFIX_DEFAULT']       = 'thailay0_';
-// dbuser
-$GLOBALS['DBUSER_DEFAULT']              = 'shop';
+$GLOBALS['DBUSER_DEFAULT']              =  'thailay0__shop';
 // dbpass
 $GLOBALS['DBPASS_DEFAULT']              = '!jpassword';
 // dbname
@@ -56,15 +54,15 @@ $GLOBALS['CPANEL_USER_DEFAULT']         = 'thailay0';
 // cppass
 $GLOBALS['CPANEL_PASS_DEFAULT']         = 'Pare4322@7';
 // url_new
-$GLOBALS['URL_NEW_DEFAULT']             = 'https://woointegration.com/shop/';
+$GLOBALS['URL_NEW_DEFAULT']             = 'https://woointegration.com/shop/'. $_POST['wp_user'];
 // url_old
 $GLOBALS['URL_OLD_DEFAULT']             = 'https://www.parrystore.com';
 // path_new
-$GLOBALS['PATH_NEW_DEFAULT']             = 'https://woointegration.com';
+$GLOBALS['PATH_NEW_DEFAULT']             = 'https://woointegration.com/shop/'. $_POST['wp_user'];
 // path_old
 $GLOBALS['PATH_OLD_DEFAULT']             = 'https://www.parrystore.com';
 // siteurl
-$GLOBALS['SITEURL_DEFAULT']             = 'https://woointegration.com';
+$GLOBALS['SITEURL_DEFAULT']             = 'https://woointegration.com/shop/'. $_POST['wp_user'];
 
 //GENERAL
 $GLOBALS['FW_TABLEPREFIX']              = '55c_';
@@ -77,6 +75,7 @@ $GLOBALS['FW_OPTS_DELETE']              = json_decode('["duplicator_ui_view_stat
 $GLOBALS['DB_MAX_TIME']                 = 5000;
 $GLOBALS['DB_MAX_PACKETS']              = 268435456;
 $GLOBALS['DB_FCGI_FLUSH']               = false;
+
 ini_set('mysql.connect_timeout', '5000');
 
 //PHP SETUP: all time in seconds
@@ -103,12 +102,13 @@ if (!isset($_POST['wp_user'])) {
     die();
 }
 $_POST['wp_pass']                   = isset($_POST['wp_pass']) ? trim($_POST['wp_pass']) : $_POST['wp_user'];
-$_POST['dbhost']                    = isset($_POST['dbhost']) ? trim($_POST['dbhost']) : $GLOBALS['DBHOST_DEFAULT'];
-$_POST['dbport']                    = isset($_POST['dbport']) ? trim($_POST['dbport']) : $GLOBALS['DBPORT_DEFAULT'] ;
-$_POST['dbuser']                    = isset($_POST['dbuser']) ? $GLOBALS['DBUSER_PREFIX_DEFAULT'] . trim($_POST['dbuser']) : $GLOBALS['DBUSER_PREFIX_DEFAULT'] . $GLOBALS['DBUSER_DEFAULT'];
-$_POST['dbpass']                    = isset($_POST['dbpass']) ? trim($_POST['dbpass']) : $GLOBALS['DBPASS_DEFAULT'];
-$_POST['dbname']                    = isset($_POST['dbname']) ? $GLOBALS['DBNAME_PREFIX_DEFAULT'] . trim($_POST['dbname']) : $GLOBALS['DBNAME_PREFIX_DEFAULT'] . $_POST['wp_user'];
-$_POST['dbcharset']                 = isset($_POST['dbcharset'])  ? trim($_POST['dbcharset']) : $GLOBALS['DBCHARSET_DEFAULT'];
+$GLOBALS['DBNAME'] = $GLOBALS['DBNAME_PREFIX_DEFAULT'] . $_POST['wp_user'];
+// $_POST['dbhost']                    = isset($_POST['dbhost']) ? trim($_POST['dbhost']) : $GLOBALS['DBHOST_DEFAULT'];
+// $_POST['dbport']                    = isset($_POST['dbport']) ? trim($_POST['dbport']) : $GLOBALS['DBPORT_DEFAULT'] ;
+// $_POST['dbuser']                    = isset($_POST['dbuser']) ? $GLOBALS['DBUSER_PREFIX_DEFAULT'] . trim($_POST['dbuser']) : $GLOBALS['DBUSER_PREFIX_DEFAULT'] . $GLOBALS['DBUSER_DEFAULT'];
+// $_POST['dbpass']                    = isset($_POST['dbpass']) ? trim($_POST['dbpass']) : $GLOBALS['DBPASS_DEFAULT'];
+// $_POST['dbname']                    = isset($_POST['dbname']) ? $GLOBALS['DBNAME_PREFIX_DEFAULT'] . trim($_POST['dbname']) : $GLOBALS['DBNAME_PREFIX_DEFAULT'] . $_POST['wp_user'];
+// $_POST['dbcharset']                 = isset($_POST['dbcharset'])  ? trim($_POST['dbcharset']) : $GLOBALS['DBCHARSET_DEFAULT'];
 
 //GLOBALS
 $GLOBALS['SQL_FILE_NAME']           = "installer-data.sql";
@@ -213,7 +213,7 @@ $zip_support                        = class_exists('ZipArchive') ? 'Enabled' : '
 //ERROR MESSAGES
 //===============================
 ($GLOBALS['LOG_FILE_HANDLE'] != false) or DUPX_Log::error(ERR_MAKELOG);
-
+/*
 DUPX_Log::info("********************************************************************************");
 DUPX_Log::info('* DUPLICATOR-LITE: INSTALL-LOG');
 DUPX_Log::info("* VERSION: {$GLOBALS['FW_DUPLICATOR_VERSION']}");
@@ -277,24 +277,35 @@ $_POST['dbnbsp']                = (isset($_POST['dbnbsp']) && $_POST['dbnbsp'] =
 $_POST['cache_wp']              = (isset($_POST['cache_wp']))   ? true : false;
 $_POST['cache_path']            = (isset($_POST['cache_path'])) ? true : false;
 $_POST['dbcollatefb']           = isset($_POST['dbcollatefb']) ? $_POST['dbcollatefb'] : false;
-
+*/
 /** Add setting/getting input fields class **/
 require_once('migration/model/Configuration.php');
 require_once('migration/model/DatabaseConfiguration.php');
 require_once('migration/model/DatabaseConnectionConfiguration.php');
 require_once('migration/model/WordpressUserData.php');
 
+/** Add Database Migration **/
+
+require_once('migration/DatabaseMigration1.1.php');
+
+/*** Include - File Migration ***/
+require_once('migration/FileMigration.php');
+
+
+/* Database Processing */
+$db_mgr = new DatabaseMigration();
 
 /* $POST Parameters passing into models */
-$web_config = new Configuration($_POST['dbprefix'], $_POST['blog_name'], $_POST['url_new'], $_POST['url_old'], $_POST['path_new'], $_POST['path_old'], $_POST['siteurl'], $_POST['tables'], $_POST['plugins'] , $_POST['fullsearch'], $_POST['exe_safe_mode']);
+$web_config = new Configuration($GLOBALS['FW_TABLEPREFIX'] , '',$GLOBALS['URL_NEW_DEFAULT']  , $GLOBALS['URL_OLD_DEFAULT']  , $GLOBALS['PATH_NEW_DEFAULT']  , $GLOBALS['URL_OLD_DEFAULT']  , $GLOBALS['SITEURL_DEFAULT'], $_POST['tables'], $_POST['plugins'], $_POST['fullsearch'], $_POST['exe_safe_mode']);
 $database_config = new DatabaseConfiguration($_POST['dbcharset'], $_POST['dbcollate'] , $_POST['dbcollatefb'], $GLOBALS['CURRENT_ROOT_PATH'], $_POST['dbnbsp']);
-$database_connection_config = new DatabaseConnectionConfiguration($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpass'], $_POST['dbport'],$_POST['dbname']);
+$database_connection_config = new DatabaseConnectionConfiguration($GLOBALS['DBHOST_DEFAULT'], $GLOBALS['DBUSER_DEFAULT']    , $GLOBALS['DBPASS_DEFAULT'], $GLOBALS['DBPORT_DEFUALT'], $GLOBALS['DBNAME']);
 $wp_user_model = new WordpressUserData( $_POST['wp_user'], $_POST['wp_pass']);
 
 
 //PAGE VARS
 $date_time      = @date('h:i:s');
 $ajax2_start	= DUPX_U::getMicrotime();
+$dbh = NULL;
 try{
 //===============================
 //ERROR MESSAGES
@@ -307,23 +318,26 @@ $CPNL		 = new DUPX_cPanel_Controller();
 $cpnlToken	 = $CPNL->create_token($GLOBALS['CPANEL_HOST_DEFAULT'], $GLOBALS['CPANEL_USER_DEFAULT'], $GLOBALS['CPANEL_PASS_DEFAULT']);
 $cpnlHost	 = $CPNL->connect($cpnlToken);
 
-$result = $CPNL->create_db_user($cpnlToken, $_POST['dbuser'], $_POST['dbpass']);
-if ($_POST['dbaction'] == 'create' ) {
-    $result = $CPNL->delete_db($cpnlToken, $_POST['dbname']);
-} 
-$result = $CPNL->create_db($cpnlToken, $_POST['dbname']);
+$result = $CPNL->create_db_user($cpnlToken, $database_connection_config->getDbuser(), $database_connection_config->getDbpass());
 
-$result = $CPNL->is_user_in_db($cpnlToken, $_POST['dbname'], $_POST['dbuser']);
+if ($_POST['dbaction'] == 'create' ) {
+    $result = $CPNL->delete_db($cpnlToken, $database_connection_config->getDbname());
+} 
+
+$result = $CPNL->create_db($cpnlToken,$database_connection_config->getDbname());
+
+$result = $CPNL->is_user_in_db($cpnlToken, $database_connection_config->getDbname(), $database_connection_config->getDbuser());
+
 if (!$result['status']) {
-    $result = $CPNL->assign_db_user($cpnlToken, $_POST['dbname'], $_POST['dbuser']);
+    $result = $CPNL->assign_db_user($cpnlToken, $database_connection_config->getDbname(), $database_connection_config->getDbuser());
 }
 
 //ERR_DBCONNECT
-$dbh = DUPX_DB::connect($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpass'], null, $_POST['dbport']);
+$dbh = DUPX_DB::connect($database_connection_config->getDbhost(),$database_connection_config->getDbuser(), $database_connection_config->getDbpass(), null, $database_connection_config->getDbport());
 @mysqli_query($dbh, "SET wait_timeout = {$GLOBALS['DB_MAX_TIME']}");
 ($dbh) or DUPX_Log::error(ERR_DBCONNECT . mysqli_connect_error());
 
-mysqli_select_db($dbh, $_POST['dbname']) or DUPX_Log::error(sprintf(ERR_DBCREATE, $_POST['dbname']));
+mysqli_select_db($dbh, $database_connection_config->getDbname()) or DUPX_Log::error(sprintf(ERR_DBCREATE,$database_connection_config->getDbname()));
 
 $log = <<<LOG
 \n\n********************************************************************************
@@ -595,6 +609,25 @@ foreach ($GLOBALS['FW_OPTS_DELETE'] as $value) {
 }
 
 @mysqli_close($dbh);
+/* Log File 3 */
+require_once('init/log3.file.php');
+
+// $db_mgr->connectDatabase($dbh, $database_connection_config, $database_config);
+$dbh = $db_mgr->connectDatabase($database_connection_config->getDbhost(), $database_connection_config->getDbuser(), $database_connection_config->getDbpass(), $database_connection_config->getDbname(), 
+    $database_connection_config->getDbport(), $database_config->getDbcharset(), $database_config->getDbcollate());
+
+$_POST['blogname'] = $db_mgr->getBlogName($dbh, $web_config->getBlogname());
+
+
+$db_mgr->printInstallLog($dbh, $web_config->getDbprefix(), $web_config->getTables(),$web_config->getPlugins());
+
+$db_mgr->updateSettings($dbh, $web_config->getDbprefix(), $web_config->getBlogname(),$web_config->getPlugins());
+
+// $db_mgr->replaceDBField($dbh, $web_config);
+$db_mgr->replaceDBField($dbh,$web_config->getDbprefix(), $web_config->getBlogname(), $web_config->getUrl_new(), $web_config->getUrl_old(), $web_config->getPath_new(), $web_config->getPath_old(), $web_config->getSiteurl(), $web_config->getTables(), $web_config->getFullsearch(), $web_config->getExe_safe_mode());
+
+$config_file = $db_mgr->updateWPConfig($database_config->getRoot_path(), $web_config->getUrl_new(), $_POST['retain_config'], $dbh,  $web_config, $database_connection_config);
+/*
 
 //FINAL RESULTS
 $profile_end	= DUPX_U::getMicrotime();
@@ -793,8 +826,15 @@ if (!isset($_POST['url_new']) || $_POST['retain_config']) {
 //===============================================
 DUPX_Log::info("\n====================================");
 DUPX_Log::info('GENERAL UPDATES & CLEANUP:');
-DUPX_Log::info("====================================\n");
+DUPX_Log::info("====================================\n");*/
+//$db_mgr->createNewWordpressAdminUser($dbh, $web_config, $wp_user_model);
+$db_mgr->createNewWordpressAdminUser($dbh, $web_config->getDbprefix(), $wp_user_model->getWpuser(), $wp_user_model->getWppass());
 
+// $db_mgr->updateMU($dbh, $web_config);
+$db_mgr->updateMU($dbh, $web_config->getDbprefix(),$web_config->getUrl_new(), $web_config->getUrl_old());
+
+$db_mgr->finalTest($dbh, $web_config->getDbprefix(), $config_file);
+/*
 // CREATE NEW USER LOGIC 
 if (strlen($_POST['wp_user']) >= 1 && strlen($_POST['wp_pass']) >= 1) {
 	
@@ -837,12 +877,13 @@ if (strlen($_POST['wp_user']) >= 1 && strlen($_POST['wp_pass']) >= 1) {
 		DUPX_Log::info($newuser_warnmsg);
 	}
 }
-
+*/
 //Add Admin Email
 //apply_filters( 'wp_mail_from', string $from_email )
 
 
  // MU Updates
+ /*
 $mu_newDomain = parse_url($_POST['url_new']);
 $mu_oldDomain = parse_url($_POST['url_old']);
 $mu_newDomainHost = $mu_newDomain['host'];
@@ -888,17 +929,17 @@ if ($result) {
 		}
 	}
 }
-}catch(Exception $ex){
-	DUPX_Log::error('Migration Exception ::'.$ex->getMessage(););
-}finally{	
-mysqli_close($dbh);
-} //*/
+
 $ajax2_end = DUPX_U::getMicrotime();
 $ajax2_sum = DUPX_U::elapsedTime($ajax2_end, $ajax2_start);
 DUPX_Log::info("\nSTEP 3 COMPLETE @ " . @date('h:i:s') . " - RUNTIME: {$ajax2_sum}\n\n");
-
+*/
 //wp_redirect();
-
+}catch(Exception $ex){
+    DUPX_Log::error('Migration Exception ::'.$ex->getMessage());
+}finally{
+   mysqli_close($dbh);
+} 
 ?>
 <div class="row"  style="width: 50%;margin-left: 25%;margin-top: 5%;">
     <h1>The Shop has been successfully created!</h1>
